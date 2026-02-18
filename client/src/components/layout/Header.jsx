@@ -12,10 +12,10 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-0 left-0 right-0 ">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
+    <div className="sticky top-4 bg-transparent left-0 right-0 ">
+      <div className="flex justify-between items-center max-w-6xl mx-auto p-3 shadow-md rounded-xl  px-8">
         <Link to="/">
-          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
+          <h1 className="font-bold text-sm sm:text-xl flex flex-wrap px-2">
             <span className="text-slate-500">Abross</span>
             <span className="text-slate-700">Estate</span>
           </h1>
@@ -35,7 +35,7 @@ const Header = () => {
             <Search className="text-slate-600" />
           </button>
         </form>
-        <nav className="flex items-center gap-4 lg:gap-6 font-medium bg-slate-200 rounded-3xl py-1.5 px-8">
+        <nav className="flex items-center gap-4 lg:gap-6 font-medium  rounded-3xl py-1.5 px-8">
           {navItems.map((item) => (
             <Link
               to={item.url}
@@ -45,7 +45,7 @@ const Header = () => {
               {item.title}
             </Link>
           ))}
-          <Link to={"/signin"} className=" text-slate-500 bg-white rounded-lg shadow-sm px-3 py-1">
+          <Link to={"/signin"} className="bg-slate-200 text-slate-800 ml-8 rounded-lg shadow-sm px-3 py-1">
             Sign In
           </Link>
         </nav>
