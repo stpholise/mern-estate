@@ -1,17 +1,22 @@
 import User from "../models/user.model.js";
 import bcrypt from 'bcrypt'
 import { validateEmail } from "../utils/vaildateEmail.js";
+import { errorHandler } from "../utils/error.js";
 
-export const signup = async (req, res) => {
+export const signup = async (req, res, next) => {
     const { username, password, email } = req.body
 
-    if(!validateEmail(email.trim())) {
-        return res.status(400).json({message: "Inavalid Email Format."})
+ 
+    if (!email) {
+      return next(errorHandler(400, "Email is required"));
     }
 
+    if (!validateEmail(email)) {
+      return next(errorHandler(400, "Invalid email"));
+    }
     const existingUser = await User.findOne({email})
     if (existingUser) {
-        return res.status(400).json("User already exists")
+        return next(errorHandler(400, "Email already exists "));
     }
 
     const salt = await bcrypt.genSalt(10)
@@ -26,6 +31,6 @@ export const signup = async (req, res) => {
                 email, username, password
             })
     } catch(error) {
-        res.status(500).json(error)
+       next(error)
     }
 }
