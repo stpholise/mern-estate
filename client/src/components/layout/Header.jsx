@@ -45,8 +45,8 @@ const Header = () => {
               {item.title}
             </Link>
           ))}
-          <Link to={"/signin"} className="bg-slate-200 text-slate-800 ml-8 rounded-lg shadow-sm px-3 py-1">
-            Sign In
+          <Link to={"/signup"} className="bg-slate-200 text-slate-800 ml-8 rounded-lg shadow-sm px-3 py-1">
+            Sign Up
           </Link>
         </nav>
       </div>
