@@ -57,12 +57,14 @@ const SignUp = () => {
   };
 
   return (
-    <div className=" flex items-center justify-center">
-      <div className="p-3  w-full  max-w-lg mx-auto  rounded-lg ">
-        <h1 className="text-3xl text-center font-semibold my-8">Sign Up</h1>
+    <div className="">
+      <div className=" h-screen    w-full   sm:flex items-center sm:justify-center  px-4 py-4   max-w-lg mx-auto  rounded-lg ">
+       
         <form onSubmit={handleSubmit}>
-          <div className="relative flex flex-col gap-4 shadow-2xl px-4 py-4 lg:px-12  lg:py-14 rounded-2xl ">
-            <div className="">
+          <div className="mt-8  sm:w-99 lg:w-110    flex flex-col gap-4  shadow-2xl px-4 py-4 pt-8 lg:px-12  lg:py-14 rounded-2xl border-4 border-gray-100">
+            
+             <h1 className="text-2xl text-center font-semibold mb-4">Sign Up</h1>
+             <div className="w-full">
               <p className="text-gray-600  mb-1 text-sm font-medium">
                 Full name
               </p>
@@ -73,7 +75,7 @@ const SignUp = () => {
                 name="username"
                 onChange={handleChange}
                 id="username"
-                className="border shadow border-gray-300 bg-gray-100 px-3 py-2 rounded-3xl outline-none w-full "
+                className="border shadow border-gray-300 bg-gray-100 px-3 py-2 rounded-xl outline-none w-full "
               />
             </div>
             <div className="relative">
@@ -85,7 +87,7 @@ const SignUp = () => {
                 value={formData.email}
                 onChange={handleChange}
                 id="email"
-                className=" border shadow border-gray-300 bg-gray-100 px-4 py-2 outline-none rounded-3xl w-full"
+                className=" border shadow border-gray-300 bg-gray-100 px-4 py-2 outline-none rounded-xl w-full"
               />
             </div>
             <div className="relative  ">
@@ -100,7 +102,7 @@ const SignUp = () => {
                   value={formData.password}
                   onChange={handleChange}
                   id="password"
-                  className="border shadow border-gray-300 bg-gray-100 py-2 px-4 pr-8 rounded-3xl outline-none w-full"
+                  className="border shadow border-gray-300 bg-gray-100 py-2 px-4 pr-8 rounded-2xl outline-none w-full"
                 />
                 <button
                   onClick={() => setShowPassword((prev) => !prev)}
@@ -118,7 +120,7 @@ const SignUp = () => {
             <button
               type="submit"
               // disabled={loading || !formData.email || !formData.username || !formData.password}
-              className="w-full h-10 mt-2 py-2 px-4 text-sm font-medium bg-blue-200 border shadow border-gray-300  pr-8 rounded-3xl outline-none "
+              className="w-full h-10 mt-2 py-2 px-4 text-sm font-medium bg-blue-200 border shadow border-gray-300  pr-8 rounded-xl outline-none "
             >
               {loading ? (
                 <Loader2 className="animate-spin mx-auto" />
