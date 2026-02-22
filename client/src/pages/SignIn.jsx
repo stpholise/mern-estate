@@ -25,8 +25,7 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    // setLoading(true);
+    e.preventDefault(); 
     console.log(formData);
     dispatch(signInStart(true))
 
@@ -60,8 +59,7 @@ const SignIn = () => {
       console.log(error);
       dispatch(signInFailure(error.message))
       toast.error(error.message);
-    } finally {
-      // setLoading(false);
+    } finally { 
     dispatch(signInStart(false))
 
     }
