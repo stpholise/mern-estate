@@ -2,10 +2,14 @@ import { useState } from "react";
 import { EyeOff, Eye, Mail, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import { signInStart, signInFailure, signInSuccess } from "../store/UserSlice";
+import { useDispatch, useSelector } from "react-redux";
+
 
 const SignIn = () => {
+  const dispatch = useDispatch()
+  const { loading } = useSelector((state) => state.user)
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -22,8 +26,9 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    // setLoading(true);
     console.log(formData);
+    dispatch(signInStart(true))
 
     try {
       if (Object.values(formData).some((value) => !value.trim())) {
@@ -40,8 +45,12 @@ const SignIn = () => {
 
       const data = await res.json();
       if (!res.ok) {
+        dispatch(signInFailure(data.message))
         throw new Error(data.message || "Signin failed");
       }
+      dispatch(signInSuccess(data))
+
+
 
       toast.success("Success signing in");
       setFormData({ password: "" , email: "" });
@@ -49,9 +58,12 @@ const SignIn = () => {
       console.log(data);
     } catch (error) {
       console.log(error);
+      dispatch(signInFailure(error.message))
       toast.error(error.message);
     } finally {
-      setLoading(false);
+      // setLoading(false);
+    dispatch(signInStart(false))
+
     }
   };
 

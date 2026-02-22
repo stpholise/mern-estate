@@ -12,8 +12,8 @@ const Header = () => {
   };
 
   return (
-    <div className="sticky top-4 bg-transparent left-0 right-0 ">
-      <div className="flex justify-between items-center max-w-6xl mx-auto p-3 shadow-md rounded-xl  px-8">
+    <div className="sticky bg-transparent top-4  left-0 right-0 ">
+      <div className="flex z-100 bg-white/95 justify-between items-center max-w-6xl mx-auto p-3 shadow-md rounded-xl  px-8">
         <Link to="/">
           <h1 className="font-bold text-sm sm:text-xl flex flex-wrap px-2">
             <span className="text-slate-500">Abross</span>
