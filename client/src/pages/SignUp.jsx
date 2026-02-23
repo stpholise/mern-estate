@@ -2,6 +2,7 @@ import { useState } from "react";
 import { EyeOff, Eye, Mail, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
+import Oauth from "../components/auth/Oauth";
 
 const SignUp = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -59,12 +60,16 @@ const SignUp = () => {
   return (
     <div className="">
       <div className=" h-screen  z-1 bg-white  w-full   sm:flex items-center sm:justify-center  px-4 py-4   max-w-lg mx-auto  rounded-lg ">
-       
         <form onSubmit={handleSubmit}>
           <div className="mt-8  sm:w-99 lg:w-110    flex flex-col gap-4  px-4 py-4 pt-8 lg:px-12  lg:py-14 rounded-2xl border border-gray-100">
-            
-             <h1 className="text-2xl text-center font-semibold mb-4">Sign Up</h1>
-             <div className="w-full">
+            <h1 className="text-2xl text-center font-semibold mb-4">Sign Up</h1>
+            <Oauth />
+            <div className="flex items-center justify-center gap-1">
+              <div className="border-b border-b-gray-300 w-full"></div>{" "}
+              <p className="text-gray-600 text-lg">or</p>{" "}
+              <div className="border-b border-b-gray-300 w-full"></div>{" "}
+            </div>
+            <div className="w-full">
               <p className="text-gray-600  mb-1 text-sm font-medium">
                 Full name
               </p>
@@ -119,7 +124,12 @@ const SignUp = () => {
             </div>
             <button
               type="submit"
-              disabled={loading || !formData.email || !formData.username || !formData.password}
+              disabled={
+                loading ||
+                !formData.email ||
+                !formData.username ||
+                !formData.password
+              }
               className="w-full text-white h-10 mt-2 py-2 px-4 text-sm font-medium bg-blue-200 border shadow border-gray-300  pr-8 rounded-xl outline-none "
             >
               {loading ? (

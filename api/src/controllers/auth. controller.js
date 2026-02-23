@@ -61,7 +61,7 @@ export const signin = async (req, res, next) => {
     if (!validPassword) return next(errorHandler(401, "Invalid credentials!"));
 
     generateToken(validUser._id, res);
-    const { password: pass, ...rest} = validUser._doc;
+    const { password: pass, ...rest } = validUser._doc;
 
     res.status(200).json({
       message: "Signin successful ",
@@ -69,5 +69,46 @@ export const signin = async (req, res, next) => {
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const google = async (req, res, next) => {
+  const { email, name, photo } = req.body;
+
+  try {
+    const user = await User.findOne({ email });
+    if (user) {
+      generateToken(user._id, res);
+      const { password: pass, ...rest } = user._doc;
+      res.status(200).json({
+        message: "Signin successful ",
+        ...rest,
+      });
+    } else {
+      const generatePassword = Math.random().toString(36).slice(-8);
+
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(generatePassword, salt);
+
+      const newUser = new User({
+        username:
+          name.replace(/\s+/g, "").toLowerCase() +
+          Math.random().toString(36).slice(-4),
+        email: email,
+        password: hashedPassword,
+        avatar: photo,
+      });
+
+      await newUser.save();
+
+      generateToken(newUser._id, res);
+      const { password: pass, ...rest } = newUser._doc;
+      res.status(201).json({
+        message: "User created successfuly",
+        ...rest,
+      });
+    }
+  } catch (error) {
+    next(error);
   }
 };
