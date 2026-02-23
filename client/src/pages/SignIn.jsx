@@ -4,11 +4,11 @@ import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
 import { signInStart, signInFailure, signInSuccess } from "../store/UserSlice";
 import { useDispatch, useSelector } from "react-redux";
-
+import Oauth from "../components/auth/Oauth";
 
 const SignIn = () => {
-  const dispatch = useDispatch()
-  const { loading } = useSelector((state) => state.user)
+  const dispatch = useDispatch();
+  const { loading } = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
@@ -25,9 +25,9 @@ const SignIn = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
     console.log(formData);
-    dispatch(signInStart(true))
+    dispatch(signInStart(true));
 
     try {
       if (Object.values(formData).some((value) => !value.trim())) {
@@ -44,36 +44,31 @@ const SignIn = () => {
 
       const data = await res.json();
       if (!res.ok) {
-        dispatch(signInFailure(data.message))
+        dispatch(signInFailure(data.message));
         throw new Error(data.message || "Signin failed");
       }
-      dispatch(signInSuccess(data))
-
-
+      dispatch(signInSuccess(data));
 
       toast.success("Success signing in");
-      setFormData({ password: "" , email: "" });
+      setFormData({ password: "", email: "" });
       navigate("/");
       console.log(data);
     } catch (error) {
       console.log(error);
-      dispatch(signInFailure(error.message))
+      dispatch(signInFailure(error.message));
       toast.error(error.message);
-    } finally { 
-    dispatch(signInStart(false))
-
+    } finally {
+      dispatch(signInStart(false));
     }
   };
 
   return (
     <div className="">
       <div className=" h-screen  z-1 bg-white  w-full   sm:flex items-center sm:justify-center  px-4 py-4   max-w-lg mx-auto  rounded-lg ">
-       
         <form onSubmit={handleSubmit}>
           <div className="mt-8  sm:w-99 lg:w-110    flex flex-col gap-4  shadow-2xl px-4 py-4 pt-8 lg:px-12  lg:py-14 rounded-2xl border border-gray-100">
-            
-             <h1 className="text-2xl text-center font-semibold mb-4">Sign In</h1>
-            
+            <h1 className="text-2xl text-center font-semibold mb-4">Sign In</h1>
+
             <div className="relative">
               <p className="text-gray-600 mb-1  text-sm font-medium">Email</p>
               <input
@@ -115,7 +110,7 @@ const SignIn = () => {
             </div>
             <button
               type="submit"
-              disabled={loading || !formData.email   || !formData.password}
+              disabled={loading || !formData.email || !formData.password}
               className="w-full h-10 mt-2 py-2 px-4 text-sm font-medium bg-blue-200 border shadow border-gray-300  pr-8 rounded-xl outline-none "
             >
               {loading ? (
@@ -124,6 +119,7 @@ const SignIn = () => {
                 "Sign in"
               )}
             </button>
+            <Oauth />
             <p className="text-sm text-black text-center">
               Dont have an account?{" "}
               <Link to={"signin"} className="text-blue-700 font-medium">

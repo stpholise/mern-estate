@@ -9,7 +9,7 @@ const rootReducer = combineReducers({ user: userReducer})
 
 const persistConfig = {
     key: "root",
-    sessionStorage,
+    storage: sessionStorage,
     version: 1,
 }
 
