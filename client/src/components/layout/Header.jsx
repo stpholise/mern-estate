@@ -1,11 +1,11 @@
 import { Search } from "lucide-react";
-import { Link,  } from "react-router";
-import {  useState } from "react";
+import { Link } from "react-router";
+import { useState } from "react";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [searchTerm, setSearchTerm] = useState("");
-
-  
+  const { currentUser } = useSelector((state) => state.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -45,8 +45,18 @@ const Header = () => {
               {item.title}
             </Link>
           ))}
-          <Link to={"/signup"} className="bg-slate-200 text-slate-800 ml-8 rounded-lg shadow-sm px-3 py-1">
-            Sign Up
+          <Link to={currentUser ? "/profile":"/signin"}>
+            {currentUser ? (
+              <img
+                className="rounded-full w-6 h-6 object-cover"
+                src={currentUser?.avatar ||"/avatar.png"}
+                alt="profile"
+              />
+            ) : (
+              <button className="bg-slate-200 text-slate-800 ml-8 rounded-lg shadow-sm px-3 py-1">
+                Sign In
+              </button>
+            )}
           </Link>
         </nav>
       </div>
