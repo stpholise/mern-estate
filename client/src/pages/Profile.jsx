@@ -1,7 +1,7 @@
 import { Camera, Edit3, Loader2, Trash } from "lucide-react";
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { successfulUserUpdate } from "../store/UserSlice";
+import { successfulUserUpdate, updateUserFalure } from "../store/UserSlice";
 import { toast } from "react-hot-toast";
 
 const Profile = () => {
@@ -50,8 +50,9 @@ const Profile = () => {
           username: formData.username,
           email: formData.email,
           avatar: selectedImage, 
+
         }),
-      });
+      }); 
       const data = await res.json();
       if (!res.ok) { 
         throw new Error(data.message || "Something went wrong")
@@ -60,7 +61,7 @@ const Profile = () => {
       dispatch(successfulUserUpdate(data));
       toast.success("Profile updated successfuly");
     } catch (error) {
-      console.log(error);
+      dispatch(updateUserFalure(error.message))
       toast.error(error.message);
       setLoading(false);
     }
