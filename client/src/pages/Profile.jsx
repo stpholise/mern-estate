@@ -1,13 +1,17 @@
-import { Camera, Edit3, Trash } from "lucide-react";
+import { Camera, Edit3, Loader2, Trash } from "lucide-react";
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { successfulUserUpdate } from "../store/UserSlice";
+import { toast } from "react-hot-toast";
 
 const Profile = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const fileRef = useRef(null);
-  const [selectedImage, setSelectedImage] = useState();
   const { currentUser } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState();
+  const [selectedImage, setSelectedImage] = useState(
+    currentUser?.avatar || "/avatar.png",
+  );
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -24,43 +28,43 @@ const Profile = () => {
     e.preventDefault();
     const selectedFile = e.target.files[0];
     if (!selectedFile) return;
-     
 
     const reader = new FileReader();
     reader.readAsDataURL(selectedFile);
 
     reader.onload = () => {
-      const base64Image = reader.result; 
-      setSelectedImage(base64Image); 
+      const base64Image = reader.result;
+      setSelectedImage(base64Image);
     };
   };
 
-  const updateProfile = async() => {
-
+  const updateProfile = async () => { 
+    setLoading(true);
     try {
-        const res =  await fetch("/api/user/update", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            username: formData.username,
-            email: formData.email,
-            avatar: selectedImage,
-          })
-        })
-        if(!res.ok){ 
-          throw new Error(res.data)
-        }
-        const data = await res.json()
-        dispatch( successfulUserUpdate(data))
-        console.log(data)
-    }catch(error) {
-      console.log(error)
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: formData.username,
+          email: formData.email,
+          avatar: selectedImage, 
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) { 
+        throw new Error(data.message || "Something went wrong")
+      }
+      setLoading(false);
+      dispatch(successfulUserUpdate(data));
+      toast.success("Profile updated successfuly");
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+      setLoading(false);
     }
-  }
-
- 
+  };
 
   return (
     <div>
@@ -77,8 +81,8 @@ const Profile = () => {
             />
             <img
               onClick={() => fileRef.current.click()}
-              className="w-full h-full object-cover rounded-full"
-              src={selectedImage || currentUser?.avatar || "/avatar.png"}
+              className="w-full z-2 h-full object-cover rounded-full"
+              src={selectedImage}
             />
             <Edit3
               onClick={() => setEditMode((prev) => !prev)}
@@ -106,23 +110,23 @@ const Profile = () => {
           <button
             type="button"
             onClick={updateProfile}
-            className="capitalize font-medium border-gray-200 border w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
+            className="capitalize relative font-medium border-gray-200 border w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
           >
-            {" "}
-            update profile{" "}
+            {loading ? (
+              <Loader2 className="animate-spin size-5 tex-gray-400 " />
+            ) : (
+              "Update profile"
+            )}
           </button>
           <button
             type="button"
-            className="capitalize font-medium border-gray-200 border  w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
+            className="relative capitalize font-medium border-gray-200 border  w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
           >
             {" "}
             create listing
           </button>
         </div>
-        <div className="py-8">
-          {/* <AdvancedImage cldImg={myImage} /> */}
-          listing
-        </div>
+        <div className="py-8">listing</div>
         <div className=" flex gap-4 justify-between flex-col sm:flex-row py-6 border-gray-200 border px-4 rounded-lg">
           <button
             type="button"
