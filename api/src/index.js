@@ -1,30 +1,36 @@
 import express from "express";
 import dotenv from "dotenv";
 
-import { connectDB } from "./lib/db.js"
-import userRouter  from './routes/user.route.js'
-import authRouter from './routes/auth.route.js'
+import { connectDB } from "./lib/db.js";
+import userRouter from "./routes/user.route.js";
+import authRouter from "./routes/auth.route.js";
+import listingRouter from "./routes/listing.route.js";
 
-dotenv.config()
-const PORT = process.env.PORT
+import cookieParser from "cookie-parser";
+
+dotenv.config();
+const PORT = process.env.PORT;
 
 const app = express();
-app.use(express.json({ limit: "10mb"}))
+app.use(express.json({ limit: "10mb" }));
+app.use(cookieParser());
 
-app.use('/api/user', userRouter )
-app.use("/api/auth", authRouter)
+app.use("/api/user", userRouter);
+app.use("/api/auth", authRouter);
+app.use("/api/listing", listingRouter);
+
+
 app.use((err, req, res, next) => {
-    const statusCode = err.statusCode || 500;
-    const message = err.message || "Internal server error"
-    return res.status(statusCode).json({
-        success: false,
-        statusCode,
-        message,
-    })
-}) 
- 
+  const statusCode = err.statusCode || 500;
+  const message = err.message || "Internal server error";
+  return res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
 
 app.listen(PORT, () => {
-    console.log(`Server is connected to port    ${PORT}`)
-    connectDB()
-})
+  console.log(`Server is connected to port    ${PORT}`);
+  connectDB();
+});

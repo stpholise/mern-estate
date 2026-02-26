@@ -1,14 +1,22 @@
 import { Camera, Edit3, Loader2, Trash } from "lucide-react";
 import { useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { successfulUserUpdate } from "../store/UserSlice";
+import {
+  successfulUserUpdate,
+  updateUserFalure,
+  deleteUserFalure,
+  deleteUserSuccess,
+  logoutUserFalure,
+  logoutUserSuccess,
+} from "../store/UserSlice";
 import { toast } from "react-hot-toast";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const fileRef = useRef(null);
   const { currentUser } = useSelector((state) => state.user);
-  const [loading, setLoading] = useState();
+  const [loading, setLoading] = useState(false);
+  const [deletingUser, setDeletingUser] = useState(false);
   const [selectedImage, setSelectedImage] = useState(
     currentUser?.avatar || "/avatar.png",
   );
@@ -38,7 +46,7 @@ const Profile = () => {
     };
   };
 
-  const updateProfile = async () => { 
+  const updateProfile = async () => {
     setLoading(true);
     try {
       const res = await fetch(`/api/user/update/${currentUser._id}`, {
@@ -49,20 +57,57 @@ const Profile = () => {
         body: JSON.stringify({
           username: formData.username,
           email: formData.email,
-          avatar: selectedImage, 
+          avatar: selectedImage,
         }),
       });
       const data = await res.json();
-      if (!res.ok) { 
-        throw new Error(data.message || "Something went wrong")
+      if (!res.ok) {
+        throw new Error(data.message || "Something went wrong");
       }
       setLoading(false);
       dispatch(successfulUserUpdate(data));
       toast.success("Profile updated successfuly");
     } catch (error) {
-      console.log(error);
+      dispatch(updateUserFalure(error.message));
       toast.error(error.message);
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async () => {
+    console.log(currentUser);
+    setDeletingUser(true);
+    try {
+      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+        method: "DELETE",
+        credentials: "include",
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.message || "Update failed");
+      }
+      toast.success(data.message);
+      dispatch(deleteUserSuccess());
+      setDeletingUser(false);
+    } catch (error) {
+      console.log(error.message);
+      dispatch(deleteUserFalure(error.message));
+      setDeletingUser(false);
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`/api/auth/signout` );
+      const data = res.json()
+     
+      toast.success(data)
+      dispatch(logoutUserSuccess());
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      dispatch(logoutUserFalure());
     }
   };
 
@@ -113,7 +158,7 @@ const Profile = () => {
             className="capitalize relative font-medium border-gray-200 border w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
           >
             {loading ? (
-              <Loader2 className="animate-spin size-5 tex-gray-400 " />
+              <Loader2 className="animate-spin size-5 tex-gray-400  " />
             ) : (
               "Update profile"
             )}
@@ -130,13 +175,18 @@ const Profile = () => {
         <div className=" flex gap-4 justify-between flex-col sm:flex-row py-6 border-gray-200 border px-4 rounded-lg">
           <button
             type="button"
+            onClick={handleDelete}
             className="capitalize font-medium   w-full sm:w-fit px-2 py-1 rounded-md  h-9"
           >
-            {" "}
-            <Trash className="text-red-500 " />{" "}
+            {deletingUser ? (
+              <Loader2 className="animate-spin size-5" />
+            ) : (
+              <Trash className="text-red-500 " />
+            )}
           </button>
           <button
             type="button"
+            onClick={handleSignout}
             className="capitalize font-medium border-gray-200 border  w-full sm:w-fit px-5 py-1 rounded-md bg-gray-50 text-red-500 h-9"
           >
             {" "}
