@@ -1,15 +1,16 @@
 import { useState } from "react";
-import { EyeOff, Eye, Mail, Loader2 } from "lucide-react";
+import { EyeOff, Eye, Loader2 } from "lucide-react";
 import { Link, useNavigate } from "react-router";
 import toast from "react-hot-toast";
-import { signInStart, signInFailure, signInSuccess } from "../store/UserSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { signInFailure, signInSuccess } from "../store/UserSlice";
+import { useDispatch } from "react-redux";
 import Oauth from "../components/auth/Oauth";
 
 const SignIn = () => {
   const dispatch = useDispatch();
-  const { loading } = useSelector((state) => state.user);
+  const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -26,10 +27,9 @@ const SignIn = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
-    dispatch(signInStart(true));
 
     try {
+      setLoading(true);
       if (Object.values(formData).some((value) => !value.trim())) {
         toast.error("All fields are required");
         return;
@@ -47,18 +47,17 @@ const SignIn = () => {
         dispatch(signInFailure(data.message));
         throw new Error(data.message || "Signin failed");
       }
-      dispatch(signInSuccess(data));
 
       toast.success("Success signing in");
       setFormData({ password: "", email: "" });
       navigate("/");
-      console.log(data);
+      dispatch(signInSuccess(data));
+      setLoading(false);
     } catch (error) {
       console.log(error);
       dispatch(signInFailure(error.message));
       toast.error(error.message);
-    } finally {
-      dispatch(signInStart(false));
+      setLoading(false);
     }
   };
 
