@@ -6,6 +6,8 @@ import {
   updateUserFalure,
   deleteUserFalure,
   deleteUserSuccess,
+  logoutUserFalure,
+  logoutUserSuccess,
 } from "../store/UserSlice";
 import { toast } from "react-hot-toast";
 
@@ -83,7 +85,6 @@ const Profile = () => {
 
       const data = await res.json();
       if (!res.ok) {
-          
         throw new Error(data.message || "Update failed");
       }
       toast.success(data.message);
@@ -92,7 +93,21 @@ const Profile = () => {
     } catch (error) {
       console.log(error.message);
       dispatch(deleteUserFalure(error.message));
-       setDeletingUser(false);
+      setDeletingUser(false);
+    }
+  };
+
+  const handleSignout = async () => {
+    try {
+      const res = await fetch(`/api/auth/signout` );
+      const data = res.json()
+     
+      toast.success(data)
+      dispatch(logoutUserSuccess());
+    } catch (error) {
+      toast.error(error.message)
+      console.log(error)
+      dispatch(logoutUserFalure());
     }
   };
 
@@ -171,6 +186,7 @@ const Profile = () => {
           </button>
           <button
             type="button"
+            onClick={handleSignout}
             className="capitalize font-medium border-gray-200 border  w-full sm:w-fit px-5 py-1 rounded-md bg-gray-50 text-red-500 h-9"
           >
             {" "}
