@@ -1,9 +1,11 @@
 import { useState, useRef } from "react";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import toast from "react-hot-toast";
 
 const CreateListing = () => {
   const uploadRef = useRef(null);
+  const navigate = useNavigate();
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({
     imageUrls: [],
@@ -25,7 +27,7 @@ const CreateListing = () => {
 
   const handleRemoveImage = (index) => {
     setPreview((prev) => prev.filter((_, i) => i !== index));
-     setFiles((prev) => prev.filter((_, i) => i !== index));
+    setFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   const addImages = (e) => {
@@ -46,9 +48,8 @@ const CreateListing = () => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
 
-      reader.onload = () => { 
-          setPreview((prev) => [...prev, reader.result]);
-        
+      reader.onload = () => {
+        setPreview((prev) => [...prev, reader.result]);
       };
     });
   };
@@ -116,6 +117,7 @@ const CreateListing = () => {
         throw new Error(data.message || "Could not create listing ");
       }
       toast.success("Listing created successfuly");
+      navigate(`/listing/${data._id}`);
       console.log(data);
       setLoading(false);
     } catch (error) {
@@ -125,13 +127,13 @@ const CreateListing = () => {
   };
   return (
     <main className="p-3 max-w-4xl mx-auto">
-      <h1 className="text-3xl font-semibold text-center my-7">
-        Create a Listing
+      <h1 class="bg-linear-to-r from-pink-500 to-violet-500 text-center  my-7 animate-pulse bg-clip-text text-3xl font-extrabold text-transparent ">
+        Create Listing
       </h1>
 
       <form onSubmit={handleSubmit}>
-        <div className="flex flex-col sm:flex-row gap-4">
-          <div className="flex flex-col gap-4 lg:gap-6 flex-1   px-4 py-4  ">
+        <div className="flex mx-auto    flex-col sm:flex-row gap-4">
+          <div className="flex flex-col  gap-4 lg:gap-6 flex-1   px-4 py-4  ">
             <input
               type="text"
               placeholder="Name"
@@ -300,7 +302,7 @@ const CreateListing = () => {
               </button>
             </div>
           </div>
-          <div className="flex flex-col flex-1 gap-4">
+          <div className="flex flex-col flex-1 gap-4     ">
             {preview.length > 0 &&
               preview.map((url, index) => (
                 <div
