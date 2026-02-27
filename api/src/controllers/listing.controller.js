@@ -36,3 +36,16 @@ if (!listing) {
     next(errorHandler(500, error.message));
   }
 };
+
+
+export const updateListing = (req, res, next) => {
+
+}
+
+export const getListing = (req, res) => {
+
+}
+
+export const getAllListings = (req, res ) => {
+    
+}
