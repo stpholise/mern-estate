@@ -10,10 +10,12 @@ import {
   logoutUserSuccess,
 } from "../store/UserSlice";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const Profile = () => {
   const dispatch = useDispatch();
   const fileRef = useRef(null);
+  const navigate = useNavigate()
   const { currentUser } = useSelector((state) => state.user);
   const [loading, setLoading] = useState(false);
   const [deletingUser, setDeletingUser] = useState(false);
@@ -165,6 +167,7 @@ const Profile = () => {
           </button>
           <button
             type="button"
+            onClick={() => navigate('/createlisting')}
             className="relative capitalize font-medium border-gray-200 border  w-full sm:w-fit px-5 py-1 rounded-md bg-blue-400 text-gray-50 h-9"
           >
             {" "}
