@@ -8,6 +8,7 @@ import Header from "./components/layout/Header";
 import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
+import Listing from "./pages/Listing";
 
 const App = () => {
   return (
@@ -19,9 +20,11 @@ const App = () => {
         <Route path="signup" element={<SignUp />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="about" element={<About />} />
+        <Route path="/listing/:listingId" element={<Listing />}/>
         <Route element={<PrivateRoute />}>
           <Route path="profile" element={<Profile />} />
           <Route path="/createlisting" element={<CreateListing />} />
+
         </Route>
       </Routes>
     </div>

@@ -1,8 +1,10 @@
 import User from "../models/user.model.js";
+import listings from "../models/listing.model.js"
 import { generateToken } from "../utils/generateToken.js";
 import { errorHandler } from "../utils/error.js";
 import cloudinary from "../lib/cloundinary.js";
 import { validateEmail } from "../utils/vaildateEmail.js";
+import Listing from "../models/listing.model.js";
 
 export const test = (req, res) => {
   res.json({
@@ -82,3 +84,16 @@ export const deleteUser = async (req, res, next) => {
     next(errorHandler(500, error.message));
   }
 };
+
+export const getUserListings = async  (req, res, next) => {
+  const id = req.params.id
+  if(req.user.userId === id) {
+    try {
+      const listings = await Listing.find({userRef :  id})
+      res.status(200).json(listings)
+    }catch(error) {
+      next(errorHandler(501, 'Internal server error'))
+    }
+  }
+  else{ return next(errorHandler(401, "You can only view your own listing "))}
+}
