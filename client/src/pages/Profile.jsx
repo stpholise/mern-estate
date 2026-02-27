@@ -11,6 +11,7 @@ import {
 } from "../store/UserSlice";
 import { toast } from "react-hot-toast";
 import { useNavigate } from "react-router";
+import {Link} from "react-router"
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,8 @@ const Profile = () => {
   const [selectedImage, setSelectedImage] = useState(
     currentUser?.avatar || "/avatar.png",
   );
+  const [userListings, setUserListings] = useState([]);
+  const[ showListingsError, setShowListingsError] = useState()
 
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({
@@ -113,11 +116,28 @@ const Profile = () => {
     }
   };
 
+    const handleShowListings = async () => {
+    try {
+      setShowListingsError(false);
+      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      const data = await res.json();
+      if (data.success === false) {
+        setShowListingsError(true);
+        return;
+      }
+
+      setUserListings(data);
+    } catch (error) {
+      setShowListingsError(true);
+      console.log(error)
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-center my-7 pt-5">Profile</h1>
       <div className=" container mx-auto px-4 w-fit ">
-        <div className=" flex flex-col sm:flex-row gap-4 items-center  rounded-lg border-gray-200 border px-4 sm:px-8 py-4 sm:py-8 w-fit relative">
+        <div className=" flex flex-col   sm:flex-row gap-4 items-center  rounded-lg border-gray-200 border px-4 sm:px-8 py-4 sm:py-8 w-fit relative">
           <div className="relative rounded-full size-22 sm:size-44 p-3 bg-gray-400">
             <input
               type="file"
@@ -174,7 +194,7 @@ const Profile = () => {
             create listing
           </button>
         </div>
-        <div className="py-8">listing</div>
+        <button onClick={handleShowListings} className="py-8">show listings</button>
         <div className=" flex gap-4 justify-between flex-col sm:flex-row py-6 border-gray-200 border px-4 rounded-lg">
           <button
             type="button"
@@ -197,6 +217,45 @@ const Profile = () => {
           </button>
         </div>
       </div>
+           {userListings && userListings.length > 0 && (
+        <div className='flex flex-col gap-4 container mx-auto my-8'>
+          <h1 className='text-center mt-7 text-2xl font-semibold'>
+            Your Listings
+          </h1>
+          {userListings.map((listing) => (
+            <div
+              key={listing._id}
+              className='border rounded-lg p-3 flex justify-between items-center gap-4'
+            >
+              <Link to={`/listing/${listing._id}`}>
+                <img
+                  src={listing.imageUrls[0]}
+                  alt='listing cover'
+                  className='h-16 w-16 object-contain'
+                />
+              </Link>
+              <Link
+                className='text-slate-700 font-semibold  hover:underline truncate flex-1'
+                to={`/listing/${listing._id}`}
+              >
+                <p>{listing.name}</p>
+              </Link>
+
+              <div className='flex flex-col item-center'>
+                <button
+                  onClick={() => handleListingDelete(listing._id)}
+                  className='text-red-700 uppercase'
+                >
+                  Delete
+                </button>
+                <Link to={`/update-listing/${listing._id}`}>
+                  <button className='text-green-700 uppercase'>Edit</button>
+                </Link>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 };
