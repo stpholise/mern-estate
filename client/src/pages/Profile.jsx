@@ -133,6 +133,10 @@ const Profile = () => {
     }
   };
 
+  const handleListingDelete = (id) => {
+    console.log(id)
+  }
+
   return (
     <div>
       <h1 className="text-2xl font-bold text-center my-7 pt-5">Profile</h1>
@@ -254,8 +258,10 @@ const Profile = () => {
               </div>
             </div>
           ))}
+      
         </div>
       )}
+      {showListingsError && (<div> cant find listings </div>)}
     </div>
   );
 };
