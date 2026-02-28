@@ -23,6 +23,11 @@
   clip-path: polygon(0% 0%, 100% 0%, 100% 63%, 81% 84%, 68% 77%, 46% 74%, 31% 81%, 19% 90%, 0% 75%);
 }
 
+.react-multiple-carousel__arrow {
+  z-index: 10 !important;
+  background: #0a1f44 !important ;
+  opacity: 0.8 !important;
+}
 
 @keyframes appear{
     from{
