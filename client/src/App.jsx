@@ -9,6 +9,7 @@ import { Toaster } from "react-hot-toast";
 import PrivateRoute from "./components/auth/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
 import Listing from "./pages/Listing";
+import Footer from "./components/layout/Footer";
 
 
 const App = () => {
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/createlisting" element={<CreateListing />} />
         </Route>
       </Routes>
+      <Footer />
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );
