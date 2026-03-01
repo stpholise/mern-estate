@@ -119,7 +119,7 @@ const Home = () => {
           Why Work With us
         </h3>
         <div className="grid sm:grid-cols-2 px-2  gap-4 justify-center max-w-4xl mx-auto ">
-          <div className="sticky top-40 xl:h-80 hidden sm:block rounded-xl  overflow-hidden">
+          <div className="sticky top-40 h-100 xl:h-80 hidden md:block rounded-xl  overflow-hidden">
             {images.map((img, index) => (
               <img
                 key={index}
@@ -248,11 +248,7 @@ const offers = [
     text: "Stay informed with the latest property trends, prices, and investment opportunities.",
     icon: "",
   },
-  {
-    title: "Market Insights",
-    text: "Stay informed with the latest property trends, prices, and investment opportunities.",
-    icon: "",
-  },
+ 
 ];
 
 const testimonials = [
