@@ -1,4 +1,4 @@
-import { Instagram, Linkedin, Mail } from "lucide-react";
+import {  Linkedin, Mail } from "lucide-react";
 
 const About = () => {
   return (

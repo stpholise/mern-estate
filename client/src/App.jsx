@@ -12,8 +12,7 @@ import Listing from "./pages/Listing";
 import Footer from "./components/layout/Footer";
 
 
-const App = () => {
-  // const location = useLocation()
+const App = () => { 
   return (
     <div className="relative   mt-0">
        <Header />  

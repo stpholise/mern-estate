@@ -1,10 +1,8 @@
 import { Link } from "react-router";
-import { Mail, User, Settings, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const iconMap = {
-  MapPin: MapPin,
-  user: User,
-  settings: Settings,
+  MapPin: MapPin, 
   phone: Phone,
   mail: Mail,
 };
