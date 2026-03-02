@@ -97,3 +97,23 @@ export const getUserListings = async  (req, res, next) => {
   }
   else{ return next(errorHandler(401, "You can only view your own listing "))}
 }
+
+
+export const getUser = async(req, res, next) => {
+  const id = req.params.id;
+  try{
+    const user = await User.findById(id)
+    if(!user) {
+      res.status(404).json("User not found")
+    }
+
+    const { password: pass , ...rest} = user._doc
+    res.status(200).json({...rest})
+  } catch(error){
+    next(errorHandler(500, "Internal serve error"))
+  }
+
+
+
+}
+

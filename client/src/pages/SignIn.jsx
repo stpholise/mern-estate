@@ -5,6 +5,8 @@ import toast from "react-hot-toast";
 import { signInFailure, signInSuccess } from "../store/UserSlice";
 import { useDispatch } from "react-redux";
 import Oauth from "../components/auth/Oauth";
+import Header from "../components/layout/Header";
+import SigninCell from "../components/layout/SigninCell";
 
 const SignIn = () => {
   const dispatch = useDispatch();
@@ -62,11 +64,22 @@ const SignIn = () => {
   };
 
   return (
-    <div className="">
-      <div className=" h-screen  z-1 bg-white  w-full   sm:flex items-center sm:justify-center  px-4 py-4   max-w-lg mx-auto  rounded-lg ">
+    <div className=" sm:p-8  ">
+      <div className=" h-screen  relative  z-1 bg-white  w-full  md:grid-cols-2 flex   sm:grid items-center justify-center sm:justify-center md:justify-between px-4 py-4 md:p-0    max-w-lg sm:max-w-7xl mx-auto  rounded-lg ">
+       
+
+          <button
+            onClick={() => navigate("/")}
+            className="w-18 h-12 animate-none  overflow-hidden object-center absolute  top-6  left-6"
+          >
+            <img src="/abrss.png" alt="abrss  " className="animate-none" />
+          </button>
+          <SigninCell  />
+ 
+
         <form onSubmit={handleSubmit}>
-          <div className="mt-8  sm:w-99 lg:w-110    flex flex-col gap-4  shadow-2xl px-4 py-4 pt-8 lg:px-12  lg:py-14 rounded-2xl border border-gray-100">
-            <h1 className="text-2xl text-center font-semibold mb-4">Sign In</h1>
+          <div className="mt-8  sm:w-99 lg:w-110    flex flex-col gap-4    px-4 py-4 pt-8 lg:px-12  lg:py-14 rounded-2xl mx-auto ">
+            <h1 className="text-2xl text-center font-semibold mb-4 min-w-75">Sign In</h1>
 
             <div className="relative">
               <p className="text-gray-600 mb-1  text-sm font-medium">Email</p>
@@ -121,10 +134,14 @@ const SignIn = () => {
             <Oauth />
             <p className="text-sm text-black text-center">
               Dont have an account?{" "}
-              <Link to={"signin"} className="text-blue-700 font-medium">
+              <button
+              type="button"
+                onClick={() => navigate("/signup")}
+                className="text-blue-700 font-medium"
+              >
                 {" "}
                 sign up
-              </Link>
+              </button>
             </p>
 
             <div className=""></div>

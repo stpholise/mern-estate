@@ -1,4 +1,4 @@
-import { Routes, Route,  } from "react-router";
+import { Routes, Route } from "react-router";
 import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import About from "./pages/About";
@@ -10,13 +10,16 @@ import PrivateRoute from "./components/auth/PrivateRoute";
 import CreateListing from "./pages/CreateListing";
 import Listing from "./pages/Listing";
 import Footer from "./components/layout/Footer";
-
+import { useLocation } from "react-router";
 
 const App = () => {
-  // const location = useLocation()
+  const location = useLocation();
+  const { pathname } = location;
+  console.log(pathname);
   return (
     <div className="relative   mt-0">
-       <Header />  
+      {pathname !== "/signin" && pathname !== "/signup" && <Header />}
+
       <Routes>
         <Route index element={<Home />} />
         <Route path="signup" element={<SignUp />} />
@@ -28,7 +31,8 @@ const App = () => {
           <Route path="/createlisting" element={<CreateListing />} />
         </Route>
       </Routes>
-      <Footer />
+
+      {pathname !== "/signin" && pathname !== "/signup" && <Footer />}
       <Toaster position="top-center" reverseOrder={false} />
     </div>
   );

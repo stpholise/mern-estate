@@ -1,4 +1,4 @@
-import { Instagram, Linkedin, Mail } from "lucide-react";
+import {  Linkedin, Mail } from "lucide-react";
 
 const About = () => {
   return (
@@ -44,7 +44,7 @@ const About = () => {
           </div>
         </div>
       </div>
-      <div className="mx-auto max-w-5xl  justify-between   flex lg:gap-10 items-center">
+      <div className="mx-auto max-w-5xl p-3   justify-between flex-col-reverse sm:flex-row   flex gap-6 sm:gap-8 lg:gap-12 items-center">
         <div className="max-w-sm flex flex-col gap-2">
           <h3 className="text-3xl text-primary mb-4 font-semibold">
             What We Do
@@ -62,20 +62,20 @@ const About = () => {
             ))}
           </ul>
         </div>
-        <div className="">
+        <div className="w-full">
           <img
             src="/img4.jpeg"
             alt="demo"
-            className="w-120 h-80 rounded-lg object-cover"
+            className="w-full sm:w-120 h-40 sm:h-80 rounded-t-lg sm:rounded-lg object-cover"
           />
         </div>
       </div>
-      <div className="mx-auto max-w-5xl  justify-between   flex lg:gap-10 items-center">
-        <div className="">
+      <div className="mx-auto max-w-5xl p-3   justify-between flex-col sm:flex-row   flex gap-6 sm:gap-8 lg:gap-12 items-center">
+        <div className="w-full">
           <img
             src="/img4.jpeg"
             alt="demo"
-            className="w-120 h-80 rounded-lg object-cover"
+            className="w-full sm:w-120 h-40 sm:h-80 rounded-t-lg sm:rounded-lg object-cover"
           />
         </div>
         <div className="max-w-sm flex flex-col gap-2">
@@ -96,8 +96,8 @@ const About = () => {
           </ul>
         </div>
       </div>
-      <div className="mx-auto max-w-5xl  justify-between   flex lg:gap-10 items-center">
-        <div className="max-w-sm flex flex-col gap-2">
+      <div className="mx-auto max-w-5xl p-3   justify-between flex-col-reverse sm:flex-row   flex gap-6 sm:gap-8 lg:gap-12 items-center">
+        <div className="max-w-sm bord flex flex-col gap-1 sm:gap-2">
           <h3 className="text-3xl text-primary mb-4 font-semibold">
             Why Abrss Stands Out
           </h3>
@@ -114,21 +114,21 @@ const About = () => {
             ))}
           </ul>
         </div>
-        <div className="">
+        <div className="w-full">
           <img
             src="/img4.jpeg"
             alt="demo"
-            className="w-120 h-80 rounded-lg object-cover"
+            className="w-full sm:w-120 h-40 sm:h-80 rounded-t-lg sm:rounded-lg object-cover"
           />
         </div>
       </div>
       <div className="px-4">
         {" "}
-        <div className="max-w-6xl mx-auto p-4 sm:p-8 lg:p-12 rounded-lg border-gray-300 border-2 flex justify-evenly">
+        <div className="max-w-6xl mx-auto p-4 sm:p-8 lg:p-12 rounded-lg border-gray-300 border-2 sm:flex justify-evenly">
           {stats.map((stat, i) => (
             <div
               key={i}
-              className="border-r-gray-300 border-r px-4 sm:px-8 lg:px-12 last:border-r-0"
+              className="border-gray-300 border-b py-4 sm:border-b-0 text-center sm:border-r px-4 sm:px-8 lg:px-12 last:border-0"
             >
               <p className="text-3xl font-bold ">{stat.value}</p>
               <p className="font-bold mt-2 text-primary">{stat.label} </p>
@@ -136,7 +136,7 @@ const About = () => {
           ))}{" "}
         </div>
       </div>
-      <div className="max-w-6xl w-full mx-auto p-3 sm:p-8 grid gap-4 xs:grid-cols-2 md:grid-cols-3  ">
+      <div className="max-w-6xl w-full mx-auto p-3 sm:p-8 grid gap-4 sm:grid-cols-2 md:grid-cols-3  ">
         {team.map((member, i) => (
           <div className="shadow border border-gray-300 rounded-xl max-w-sm" key={i}>
             <div className="object-contain">
@@ -146,12 +146,12 @@ const About = () => {
                 className=" w-full object-cover  rounded-t-xl "
               />
             </div>
-            <div className=" px-4 py-8 flex justify-between gap-4">
+            <div className=" px-4 py-4 sm:py-8 flex flex-col sm:flex-row justify-between gap-4">
               <div className="">
-                <h4 className=" font-semibold text-lg md:text-2xl mb-1.5">{member.name} </h4>
+                <h4 className=" font-semibold text-xl md:text-2xl mb-1.5">{member.name} </h4>
                 <p className=" font-medium text-gray-600"> {member.role}</p>
               </div>
-              <div className=" flex gap-4 items-center justify-center">
+              <div className=" flex gap-4 items-center sm:justify-center">
                 <Linkedin size={24}/>
                 <Mail  size={24}/>
               </div>

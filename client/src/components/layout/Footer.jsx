@@ -1,15 +1,14 @@
-import { Link } from "react-router";
-import { Mail, User, Settings, Phone, MapPin } from "lucide-react";
+import { Link, useNavigate } from "react-router";
+import { Mail, Phone, MapPin } from "lucide-react";
 
 const iconMap = {
-  MapPin: MapPin,
-  user: User,
-  settings: Settings,
+  MapPin: MapPin, 
   phone: Phone,
   mail: Mail,
 };
 
 const Footer = () => {
+  const navigate = useNavigate()
   return (
     <div className="min-h-100  px-2 sm:bg-primary py-2 w-full">
       <div className="max-w-6xl  mx-auto rounded-2xl px-4 py-8 min-h-99 bg-primary h-full">
@@ -35,9 +34,9 @@ const Footer = () => {
             <div className="flex-col flex gap-3 sm:gap-4 text-white">
               <h4 className="text-lg font-semibold mb-2">Sitemap</h4>
               {navItems.map((item, index) => (
-                <Link key={index} to={item.url}>
-                  <button className="text-sm">{item.title} </button>
-                </Link>
+                 
+                  <button type={"button"} onClick={() => navigate(`${item.url}`)} key={index}  className="text-sm">{item.title} </button>
+               
               ))}
             </div>
             <div className="flex-col flex gap-3 sm:gap-4 text-white">

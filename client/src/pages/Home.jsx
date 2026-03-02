@@ -1,5 +1,4 @@
 import { Search } from "lucide-react";
-// import Header from "../components/layout/Header";
 import { useState, useEffect, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";

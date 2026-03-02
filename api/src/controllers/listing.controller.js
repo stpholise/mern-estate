@@ -22,14 +22,9 @@ if (!listing) {
 }
 
   try {
-    if (req.user.userId !== listing.userRef) {
-      console.log("user id", req.user.userId);
-      console.log("user ref", listing.userRef);
+    if (req.user.userId !== listing.userRef) { 
       return next(errorHandler(401, "You can only delete your own listing!"));
-    }
-    if (!listing) {
-      return next(errorHandler(404, "Listing not found"));
-    }
+    } 
     const response = await Listing.findByIdAndDelete(id);
     res.status(200).json("Listing has been deleted");
   } catch (error) {
