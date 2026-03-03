@@ -11,7 +11,7 @@ import CreateListing from "./pages/CreateListing";
 import Listing from "./pages/Listing";
 import Footer from "./components/layout/Footer";
 import { useLocation } from "react-router";
-
+import Contact from "./pages/Contact";
 const App = () => {
   const location = useLocation();
   const { pathname } = location;
@@ -25,6 +25,7 @@ const App = () => {
         <Route path="signup" element={<SignUp />} />
         <Route path="signin" element={<SignIn />} />
         <Route path="about" element={<About />} />
+        <Route path="contact" element={<Contact />} />
         <Route path="/listing/:listingId" element={<Listing />} />
         <Route element={<PrivateRoute />}>
           <Route path="profile" element={<Profile />} />
