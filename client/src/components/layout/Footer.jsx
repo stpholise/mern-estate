@@ -35,7 +35,7 @@ const Footer = () => {
               <h4 className="text-lg font-semibold mb-2">Sitemap</h4>
               {navItems.map((item, index) => (
                  
-                  <button type={"button"} onClick={() => navigate(`${item.url}`)} key={index}  className="text-sm">{item.title} </button>
+                  <button type={"button"} onClick={() => navigate(`${item.url}`)} key={index}  className="text-sm w-fit">{item.title} </button>
                
               ))}
             </div>
