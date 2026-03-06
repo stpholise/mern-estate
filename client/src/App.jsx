@@ -15,7 +15,6 @@ import Contact from "./pages/Contact";
 const App = () => {
   const location = useLocation();
   const { pathname } = location;
-  console.log(pathname);
   return (
     <div className="relative   mt-0">
       {pathname !== "/signin" && pathname !== "/signup" && <Header />}
