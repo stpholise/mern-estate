@@ -1,11 +1,15 @@
-import { Search } from "lucide-react";
+import { Loader2, Search } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import ListingCard from "../components/cells/ListingCard";
 
 const Home = () => {
   const [active, setActive] = useState(0);
   const refs = useRef([]);
+  const [loading, setLoading] = useState(false);
+  const [listings, setListings] = useState([]);
+  const [error, setError] = useState(null);
 
   const responsiveness = {
     desktop: {
@@ -22,7 +26,7 @@ const Home = () => {
       },
       items: 3,
     },
-    
+
     mobile: {
       breakpoint: {
         max: 450,
@@ -33,8 +37,33 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const getListings = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const res = await fetch("/api/listing/all");
+        if (!res.ok) {
+          const error = await res.json();
+          throw new Error(error.message || "listings not found");
+        }
+        const data = await res.json();
+        setListings(data);
+        console.log({ data: data });
+        setLoading(false);
+        setError(null);
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+        setError(err.message);
+      }
+    };
+    getListings();
+  }, []);
+
+  useEffect(() => {
     const handleScroll = () => {
       refs.current.forEach((el, index) => {
+        if (!el) return;
         const rect = el.getBoundingClientRect();
 
         if (rect.top < window.innerHeight / 2) {
@@ -111,6 +140,16 @@ const Home = () => {
           ))}
         </div>
       </div>
+      <div className="max-w-6xl mx-auto px-4 py-9">
+        {loading && <Loader2 className="animate-spin" />}
+
+        {error && <div>{error}</div>}
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {!loading &&
+            !error &&
+            listings?.slice(0,6).map((listing) =>  <ListingCard key={listing._id} listing={listing} />)}
+        </div>
+      </div>
 
       <div className="   py-8 ">
         <h3 className="text-2xl font-semibold   text-primary  text-center mb-8">
@@ -145,41 +184,39 @@ const Home = () => {
         </div>
       </div>
 
-      <div >
-    <div className="w-full py-8 mb-8 max-w-6xl mx-auto px-4">
-  <Carousel
-    swipeable
-    responsive={responsiveness}
-    autoPlay
-    autoPlaySpeed={3000}
-    infinite
-    transitionDuration={500}
-    containerClass="w-full"
-    itemClass="px-3"
-  >
-    {testimonials.map((item, index) => (
-      <div
-        key={index}
-        className="bg-accent rounded-2xl shadow-md p-6 h-full flex flex-col justify-between transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
-      >
-        {/* Top */}
-        <div className="flex items-center gap-4 mb-4">
-          <img
-            src={item.image}
-            alt={item.name}
-            className="w-12 h-12 rounded-full object-cover"
-          />
-          <h4 className="text-lg font-semibold">{item.name}</h4>
-        </div>
+      <div>
+        <div className="w-full py-8 mb-8 max-w-6xl mx-auto px-4">
+          <Carousel
+            swipeable
+            responsive={responsiveness}
+            autoPlay
+            autoPlaySpeed={3000}
+            infinite
+            transitionDuration={500}
+            containerClass="w-full"
+            itemClass="px-3"
+          >
+            {testimonials.map((item, index) => (
+              <div
+                key={index}
+                className="bg-accent rounded-2xl shadow-md p-6 h-full flex flex-col justify-between transition-all duration-500 hover:shadow-xl hover:-translate-y-1"
+              >
+                <div className="flex items-center gap-4 mb-4">
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <h4 className="text-lg font-semibold">{item.name}</h4>
+                </div>
 
-        {/* Text */}
-        <p className="text-gray-600 text-sm leading-relaxed">
-          "{item.text}"
-        </p>
-      </div>
-    ))}
-  </Carousel>
-</div>
+                <p className="text-gray-600 text-sm leading-relaxed">
+                  "{item.text}"
+                </p>
+              </div>
+            ))}
+          </Carousel>
+        </div>
       </div>
     </div>
   );
@@ -247,7 +284,6 @@ const offers = [
     text: "Stay informed with the latest property trends, prices, and investment opportunities.",
     icon: "",
   },
- 
 ];
 
 const testimonials = [
