@@ -7,7 +7,7 @@ const router = express.Router()
 router.post('/create',verifyToken, createListing)
 router.delete("/delete/:id", verifyToken, dleletListing)
 router.post("/update/:id", verifyToken, updateListing);
-router.get("/all/:id", getListing);
 router.get('/all', getAllListings)
+router.get("/get/:id", getListing);
 
 export default router

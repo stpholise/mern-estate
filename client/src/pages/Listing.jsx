@@ -18,7 +18,7 @@ const Listing = () => {
     const getListingDetails = async () => {
       setLoading(true);
       try {
-        const res = await fetch(`/api/listing/all/${id}`);
+        const res = await fetch(`/api/listing/get/${id}`);
         const data = await res.json();
         setListing(data);
         if (!res.ok) {
