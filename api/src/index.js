@@ -43,9 +43,9 @@ app.listen(PORT, () => {
 
 
 if(process.env.NODE_ENV==="production"){
-  app.use(express.static(path.join(__dirname, "../../frontend/dist")))
+  app.use(express.static(path.join(__dirname, "../../client/dist")))
 
   app.get("/{*path}", (req, res) => {
-    res.sendFile(path.resolve(__dirname, "../../frontend/dist/index.html"))
+    res.sendFile(path.resolve(__dirname, "../../client/dist/index.html"))
   })
 }
