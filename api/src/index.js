@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from 'path'
 
 import { connectDB } from "./lib/db.js";
 import userRouter from "./routes/user.route.js";
@@ -7,6 +8,10 @@ import authRouter from "./routes/auth.route.js";
 import listingRouter from "./routes/listing.route.js";
 
 import cookieParser from "cookie-parser";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
 dotenv.config();
 const PORT = process.env.PORT;
