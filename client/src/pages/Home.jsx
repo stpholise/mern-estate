@@ -41,7 +41,7 @@ const Home = () => {
       setLoading(true);
       setError(null);
       try {
-        const res = await fetch("/api/listing/all");
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listing/all`);
         if (!res.ok) {
           const error = await res.json();
           throw new Error(error.message || "listings not found");

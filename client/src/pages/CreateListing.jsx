@@ -99,7 +99,7 @@ const CreateListing = () => {
       setLoading(true);
       const imageUrls = await uploadImages();
 
-      const res = await fetch("/api/listing/create", {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/listing/create`, {
         method: "POST",
         headers: {
           "Content-type": "application/json",
